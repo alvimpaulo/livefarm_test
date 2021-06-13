@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:livefarm_flutter_test/models/PokemonModel.dart';
+import 'package:livefarm_flutter_test/models/PokemonMoveModel.dart';
 import 'package:livefarm_flutter_test/services/Extensions/stringCapitalize.dart';
+import 'package:livefarm_flutter_test/services/database/getMoves.dart';
 
 class PokemonScreen extends StatefulWidget {
   static const routeName = "/pokemon";
@@ -15,9 +17,12 @@ class PokemonScreen extends StatefulWidget {
 }
 
 class _PokemonScreenState extends State<PokemonScreen> {
+  late Future<List<PokemonMoveModel>> futureMoves;
+
   @override
   void initState() {
     super.initState();
+    futureMoves = getMoves(widget.pokemon.id);
   }
 
   @override
@@ -68,7 +73,25 @@ class _PokemonScreenState extends State<PokemonScreen> {
                       )))
                   .toList(),
             ),
-          )
+          ),
+          FutureBuilder<List<PokemonMoveModel>>(
+              future: futureMoves,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Container(
+                    height: 200,
+                    child: (ListView(
+                      shrinkWrap: true,
+                      children: snapshot.data!
+                          .map((move) => Text("${move.name}"))
+                          .toList(),
+                    )),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return CircularProgressIndicator();
+              })
         ],
       ),
     ));
