@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:livefarm_flutter_test/models/PokemonModel.dart';
 import 'package:livefarm_flutter_test/models/PokemonMoveModel.dart';
+import 'package:livefarm_flutter_test/screens/Pokemon/PokemonScreen.dart';
 import 'package:livefarm_flutter_test/services/database/getMovesDatabase.dart';
 import 'package:livefarm_flutter_test/services/database/getPokemonDatabase.dart';
 import 'package:livefarm_flutter_test/services/database/getPokemonsMovesDatabase.dart';
@@ -173,21 +174,27 @@ class _PokemonCardState extends State<PokemonCard> {
         future: futurePokemon,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: CachedNetworkImage(
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      imageUrl: snapshot.data!.frontPixelArt,
-                    ),
-                    title: Text(
-                        "${snapshot.data!.name[0].toUpperCase()}${snapshot.data!.name.substring(1)}"),
-                    subtitle: Text("Pokemon de Número ${snapshot.data!.id}"),
-                  )
-                ],
+            return InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, PokemonScreen.routeName,
+                    arguments: snapshot.data);
+              },
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      leading: CachedNetworkImage(
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        imageUrl: snapshot.data!.frontPixelArt,
+                      ),
+                      title: Text(
+                          "${snapshot.data!.name[0].toUpperCase()}${snapshot.data!.name.substring(1)}"),
+                      subtitle: Text("Pokemon de Número ${snapshot.data!.id}"),
+                    )
+                  ],
+                ),
               ),
             );
           } else if (snapshot.hasError) {

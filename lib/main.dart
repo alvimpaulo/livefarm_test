@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:livefarm_flutter_test/routes.dart';
+import 'package:livefarm_flutter_test/models/PokemonModel.dart';
+import 'package:livefarm_flutter_test/screens/Pokemon/PokemonScreen.dart';
+import 'package:livefarm_flutter_test/screens/PokemonList/PokemonListScreen.dart';
 
 void main() async {
   runApp(MyApp());
@@ -25,8 +27,20 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.red,
       ),
-      initialRoute: "/",
-      routes: routes,
+      initialRoute: PokemonListScreen.routeName,
+      routes: {
+        PokemonListScreen.routeName: (context) => PokemonListScreen(
+              title: 'Home',
+            ),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == PokemonScreen.routeName) {
+          final args = settings.arguments as PokemonModel;
+          return MaterialPageRoute(builder: (context) {
+            return PokemonScreen(pokemon: args);
+          });
+        }
+      },
     );
   }
 }

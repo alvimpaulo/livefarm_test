@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:livefarm_flutter_test/components/PokemonCard.dart';
 
 class PokemonListScreen extends StatefulWidget {
+  static const routeName = "/";
   PokemonListScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
