@@ -82,8 +82,8 @@ class _PokemonScreenState extends State<PokemonScreen> {
                 if (snapshot.hasData) {
                   return Container(
                     child: (GridView.count(
-                      crossAxisCount: 4,
-                      childAspectRatio: 1.5,
+                      crossAxisCount: (getBiggerScreenRatio() / 2).ceil(),
+                      childAspectRatio: getBiggerScreenRatio() / 5,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       children: snapshot.data!
@@ -99,5 +99,13 @@ class _PokemonScreenState extends State<PokemonScreen> {
         ],
       ),
     ));
+  }
+
+  double getBiggerScreenRatio() {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return (height > width
+        ? (height / width) * MediaQuery.of(context).devicePixelRatio
+        : (width / height) * MediaQuery.of(context).devicePixelRatio);
   }
 }

@@ -63,26 +63,54 @@ class _MoveCardState extends State<MoveCard> {
             ),
             GridView.count(
               crossAxisCount: 2,
-              childAspectRatio: 2,
+              childAspectRatio: 1.5,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: [
                 () {
                   return (widget.move.pp == -1
-                      ? Text("PP : N/A")
-                      : Text("PP : ${widget.move.pp}"));
+                      ? Center(
+                          child: Text(
+                          "PP : N/A",
+                          textAlign: TextAlign.center,
+                        ))
+                      : Center(
+                          child: Text(
+                          "PP : ${widget.move.pp}",
+                          textAlign: TextAlign.center,
+                        )));
                 }(),
                 () {
                   return (widget.move.accuracy == -1
-                      ? Text("Accuracy : N/A")
-                      : Text("Accuracy : ${widget.move.accuracy}"));
+                      ? Center(
+                          child: Text(
+                          "Accuracy : N/A",
+                          textAlign: TextAlign.center,
+                        ))
+                      : Center(
+                          child: Text(
+                          "Accuracy : ${widget.move.accuracy}",
+                          textAlign: TextAlign.center,
+                        )));
                 }(),
                 () {
                   return (widget.move.power == -1
-                      ? Text("Power : N/A")
-                      : Text("Power : ${widget.move.power}"));
+                      ? Center(
+                          child: Text(
+                          "Power : N/A",
+                          textAlign: TextAlign.center,
+                        ))
+                      : Center(
+                          child: Text(
+                          "Power : ${widget.move.power}",
+                          textAlign: TextAlign.center,
+                        )));
                 }(),
-                Text("Type : ${widget.move.type.inCaps}")
+                Center(
+                    child: Text(
+                  "Type : ${widget.move.type.inCaps}",
+                  textAlign: TextAlign.center,
+                ))
               ],
             ),
           ],
