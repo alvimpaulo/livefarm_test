@@ -45,6 +45,8 @@ class _PokemonScreenState extends State<PokemonScreen> {
           CachedNetworkImage(
               placeholder: (context, url) =>
                   Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => Image(
+                  image: AssetImage("assets/images/interrogacaoPokemon.png")),
               imageUrl: widget.pokemon.frontHighQuality),
           Center(
             child: Text("Abilities"),
