@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:livefarm_flutter_test/components/MoveCard.dart';
+import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:livefarm_flutter_test/models/PokemonModel.dart';
 import 'package:livefarm_flutter_test/models/PokemonMoveModel.dart';
 import 'package:livefarm_flutter_test/services/Extensions/stringCapitalize.dart';
@@ -38,6 +38,7 @@ class _PokemonScreenState extends State<PokemonScreen> {
         title: Text(widget.pokemon.name.inCaps),
       ),
       body: ListView(
+        shrinkWrap: true,
         children: [
           CachedNetworkImage(
               placeholder: (context, url) =>
@@ -59,43 +60,34 @@ class _PokemonScreenState extends State<PokemonScreen> {
               options: CarouselOptions(height: 50),
             ),
           ),
-          Center(child: Text("Stats")),
           Container(
-            margin: EdgeInsets.only(left: 20, right: 20),
-            child: GridView.count(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: 3,
-              childAspectRatio: 2,
-              children: widget.pokemon.stats
-                  .map((stat) => Center(
-                          child: Text(
-                        "${stat.name.allInCaps} : ${stat.baseStat}",
-                        textAlign: TextAlign.center,
-                      )))
-                  .toList(),
-            ),
-          ),
-          FutureBuilder<List<PokemonMoveModel>>(
-              future: futureMoves,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Container(
-                    child: (GridView.count(
-                      crossAxisCount: (getBiggerScreenRatio() / 2).ceil(),
-                      childAspectRatio: getBiggerScreenRatio() / 5,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      children: snapshot.data!
-                          .map((move) => MoveCard(move: move))
-                          .toList(),
-                    )),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return Center(child: CircularProgressIndicator());
-              })
+              height: 300,
+              margin: EdgeInsets.only(left: 20, right: 20),
+              child: RadarChart.light(
+                  useSides: true,
+                  ticks: [0, 51, 102, 153, 104, 155, 206, 255],
+                  features: widget.pokemon.stats.map((e) {
+                    switch (e.name) {
+                      case "speed":
+                        return "SPD";
+                      case "attack":
+                        return "ATK";
+                      case "special-attack":
+                        return "SPATK";
+                      case "hp":
+                        return "HP";
+                      case "special-defense":
+                        return "SPDEF";
+                      case "defense":
+                        return "DEF";
+                      default:
+                        return "STAT";
+                    }
+                  }).toList(),
+                  data: [
+                    widget.pokemon.stats.map((e) => e.baseStat).toList()
+                  ])),
+          // s
         ],
       ),
     ));
