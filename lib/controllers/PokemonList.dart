@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:livefarm_flutter_test/models/PokemonModel.dart';
 import 'package:livefarm_flutter_test/services/database/getPokemon.dart';
 import 'package:mobx/mobx.dart';
@@ -23,13 +25,18 @@ abstract class PokemonListBase with Store {
     for (int i = 1; i < 10; i++) {
       try {
         PokemonModel currentPokemon = await getPokemon(i);
-        try {
-          pokemonList.firstWhere((pokemon) => currentPokemon.id == pokemon.id);
-        } on StateError {
-          pokemonList.add(currentPokemon);
+        if (currentPokemon.id != -1) {
+          try {
+            pokemonList
+                .firstWhere((pokemon) => currentPokemon.id == pokemon.id);
+          } on StateError {
+            pokemonList.add(currentPokemon);
+          }
+        } else {
+          throw HttpException("No connection");
         }
-      } catch (ex) {
-        print(ex);
+      } on HttpException catch (e) {
+        if (e.message == "No connection") throw e;
       }
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,13 +54,18 @@ abstract class PokemonListBase with Store {
     for (int i = pokemonsSize + 1; i < pokemonsSize + 5; i++) {
       try {
         PokemonModel currentPokemon = await getPokemon(i);
-        try {
-          pokemonList.firstWhere((pokemon) => currentPokemon.id == pokemon.id);
-        } on StateError {
-          pokemonList.add(currentPokemon);
+        if (currentPokemon.id != -1) {
+          try {
+            pokemonList
+                .firstWhere((pokemon) => currentPokemon.id == pokemon.id);
+          } on StateError {
+            pokemonList.add(currentPokemon);
+          }
+        } else {
+          throw HttpException("No connection");
         }
-      } catch (ex) {
-        print(ex);
+      } on HttpException catch (e) {
+        if (e.message == "No connection") throw e;
       }
     }
   }

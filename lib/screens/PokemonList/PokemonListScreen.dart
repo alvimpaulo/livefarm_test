@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:livefarm_flutter_test/components/PokemonCard.dart';
@@ -22,7 +24,15 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
   @override
   void initState() {
     super.initState();
-    pokemonList.populatePokemonList();
+    try {
+      pokemonList.populatePokemonList();
+    } on HttpException catch (e) {
+      if (e.message == "No connection") {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("No connection to API"),
+        ));
+      }
+    }
   }
 
   @override
@@ -97,8 +107,19 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
     if (notification is ScrollEndNotification) {
       if (notification.metrics.extentAfter == 0 &&
           lastListSize < pokemonList.length) {
-        pokemonList.addPokemons();
-        lastListSize = pokemonList.length;
+        try {
+          pokemonList.addPokemons().catchError((e) {
+            print(e);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("No connection to the API"),
+            ));
+            lastListSize = lastListSize - 1;
+          });
+          lastListSize = pokemonList.length;
+        } catch (e) {
+          print(e);
+          print("Error adding pokemons to the list");
+        }
       }
     }
     return false;

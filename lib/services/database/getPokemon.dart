@@ -19,7 +19,11 @@ Future<PokemonModel> getPokemon(int pokemonIndex) async {
       print(err);
     }
     final PokemonModel currentPoke = await fetchPokemon(pokemonIndex);
-    await insertPokemon(currentPoke);
-    return currentPoke;
+    if (currentPoke.id != -1) {
+      await insertPokemon(currentPoke);
+      return currentPoke;
+    } else {
+      return currentPoke;
+    }
   }
 }
