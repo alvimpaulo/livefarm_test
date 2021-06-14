@@ -1,16 +1,7 @@
 # livefarm_flutter_test
 
-Test to apply to livefarm.
+Pokedex feita em flutter para o desafio do estágio.
 
-## Getting Started
+A estrutura de pastas é baseada um pouco neste artigo do Medium https://medium.com/flutter-community/flutter-code-organization-revised-b09ad5cef7f6 que possui o repositório https://github.com/ConProgramming/flutter-example.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+O projeto possui algumas bibliotecas externas, é bom ver no pubspec caso elas fiquem desatualizadas.
