@@ -58,8 +58,11 @@ class _MoveCardState extends State<MoveCard> {
         }(),
         child: Column(
           children: [
-            Center(
-              child: Text(widget.move.name.allInCaps),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(widget.move.name.allInCaps),
+              ),
             ),
             GridView.count(
               crossAxisCount: 2,

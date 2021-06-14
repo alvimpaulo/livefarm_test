@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
+import 'package:livefarm_flutter_test/components/AbilityCard.dart';
+import 'package:livefarm_flutter_test/components/MoveCard.dart';
 import 'package:livefarm_flutter_test/models/PokemonModel.dart';
 import 'package:livefarm_flutter_test/models/PokemonMoveModel.dart';
 import 'package:livefarm_flutter_test/services/Extensions/stringCapitalize.dart';
@@ -51,9 +53,8 @@ class _PokemonScreenState extends State<PokemonScreen> {
             child: CarouselSlider(
               items: widget.pokemon.abilities
                   .map((ability) => Center(
-                        child: Text(
-                          "${ability.name} : ${ability.slot}",
-                          textAlign: TextAlign.center,
+                        child: AbilityCard(
+                          ability: ability,
                         ),
                       ))
                   .toList(),
@@ -87,7 +88,32 @@ class _PokemonScreenState extends State<PokemonScreen> {
                   data: [
                     widget.pokemon.stats.map((e) => e.baseStat).toList()
                   ])),
-          // s
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center(
+              child: Text("Moves"),
+            ),
+          ),
+          FutureBuilder<List<PokemonMoveModel>>(
+              future: futureMoves,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Container(
+                    child: (GridView.count(
+                      crossAxisCount: (getBiggerScreenRatio() / 2).ceil(),
+                      childAspectRatio: getBiggerScreenRatio() / 5,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      children: snapshot.data!
+                          .map((move) => MoveCard(move: move))
+                          .toList(),
+                    )),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return Center(child: CircularProgressIndicator());
+              })
         ],
       ),
     ));

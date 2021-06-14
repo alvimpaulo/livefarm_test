@@ -3,8 +3,8 @@
     <!-- Required to fetch data from the internet. -->
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="livefarm_flutter_test"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Pokedex Livefarm"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

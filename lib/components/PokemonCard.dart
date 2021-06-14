@@ -40,7 +40,7 @@ class _PokemonCardState extends State<PokemonCard> {
                   imageUrl: widget.pokemon.frontPixelArt,
                 ),
                 title: Text("${widget.pokemon.name.inCaps}"),
-                subtitle: Text("Pokemon de id ${widget.pokemon.id}"),
+                subtitle: Text("Pokemon id ${widget.pokemon.id}"),
               )
             ],
           ),
