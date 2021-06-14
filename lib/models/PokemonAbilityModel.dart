@@ -10,6 +10,11 @@ class PokemonAbilityModel {
       };
 
   factory PokemonAbilityModel.fromJson(dynamic json) {
-    return PokemonAbilityModel(name: json["name"], slot: json["slot"]);
+    try {
+      return PokemonAbilityModel(name: json["name"], slot: json["slot"]);
+    } catch (e) {
+      print("$e in PokemonAbilityModel.fromJson");
+    }
+    return PokemonAbilityModel(name: "none", slot: -1);
   }
 }

@@ -10,6 +10,11 @@ class PokemonStatModel {
       };
 
   factory PokemonStatModel.fromJson(dynamic json) {
-    return PokemonStatModel(name: json["name"], baseStat: json["baseStat"]);
+    try {
+      return PokemonStatModel(name: json["name"], baseStat: json["baseStat"]);
+    } catch (e) {
+      print("$e in PokemonStatModel.fromJson");
+    }
+    return PokemonStatModel(name: "none", baseStat: -1);
   }
 }

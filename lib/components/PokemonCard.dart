@@ -34,6 +34,9 @@ class _PokemonCardState extends State<PokemonCard> {
               ListTile(
                 leading: CachedNetworkImage(
                   placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Image(
+                      image:
+                          AssetImage("assets/images/interrogacaoPokemon.png")),
                   imageUrl: widget.pokemon.frontPixelArt,
                 ),
                 title: Text("${widget.pokemon.name.inCaps}"),

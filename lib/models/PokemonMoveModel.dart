@@ -33,12 +33,18 @@ class PokemonMoveModel {
       };
 
   factory PokemonMoveModel.fromJson(dynamic json) {
+    try {
+      return PokemonMoveModel(
+          id: json["id"],
+          name: json["name"],
+          accuracy: json["accuracy"],
+          pp: json["pp"],
+          power: json["power"],
+          type: json["type"]);
+    } catch (e) {
+      print("$e on PokemonMoveModel.fromJson");
+    }
     return PokemonMoveModel(
-        id: json["id"],
-        name: json["name"],
-        accuracy: json["accuracy"],
-        pp: json["pp"],
-        power: json["power"],
-        type: json["type"]);
+        id: -1, name: "nome", accuracy: -1, pp: -1, power: -1, type: "none");
   }
 }
