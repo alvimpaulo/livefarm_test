@@ -4,14 +4,15 @@ class PokemonMoveModel {
   final int accuracy;
   final int pp;
   final int power;
+  final String type;
 
-  PokemonMoveModel({
-    required this.id,
-    required this.name,
-    required this.accuracy,
-    required this.pp,
-    required this.power,
-  });
+  PokemonMoveModel(
+      {required this.id,
+      required this.name,
+      required this.accuracy,
+      required this.pp,
+      required this.power,
+      required this.type});
 
   Map<String, dynamic> toMap() {
     return {
@@ -33,11 +34,11 @@ class PokemonMoveModel {
 
   factory PokemonMoveModel.fromJson(dynamic json) {
     return PokemonMoveModel(
-      id: json["id"],
-      name: json["name"],
-      accuracy: json["accuracy"],
-      pp: json["pp"],
-      power: json["power"],
-    );
+        id: json["id"],
+        name: json["name"],
+        accuracy: json["accuracy"],
+        pp: json["pp"],
+        power: json["power"],
+        type: json["type"]);
   }
 }

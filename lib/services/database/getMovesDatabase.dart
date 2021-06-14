@@ -6,7 +6,7 @@ Future<Database> getMoveDatabase() async {
     join(await getDatabasesPath(), "moves_database.db"),
     onCreate: (db, version) {
       return db.execute(
-        'CREATE TABLE moves(name TEXT PRIMARY KEY, id INTEGER, accuracy INTEGER, pp INTEGER, power INTEGER)',
+        'CREATE TABLE moves(name TEXT PRIMARY KEY, id INTEGER, accuracy INTEGER, pp INTEGER, power INTEGER, type INTEGER)',
       );
     },
     version: 1,

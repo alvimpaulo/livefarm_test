@@ -21,12 +21,12 @@ Future<List<PokemonMoveModel>> fetchMoves(int pokemonIndex) async {
         final dynamic moveJson = jsonDecode(moveResponse.body);
 
         pokeMoves.add(PokemonMoveModel(
-          id: moveJson["id"],
-          name: moveJson["name"],
-          accuracy: moveJson["accuracy"] == null ? -1 : moveJson["accuracy"],
-          pp: moveJson["pp"],
-          power: moveJson["power"] == null ? -1 : moveJson["power"],
-        ));
+            id: moveJson["id"],
+            name: moveJson["name"],
+            accuracy: moveJson["accuracy"] == null ? -1 : moveJson["accuracy"],
+            pp: moveJson["pp"],
+            power: moveJson["power"] == null ? -1 : moveJson["power"],
+            type: moveJson["type"]["name"]));
       } else {
         throw Exception("Falha em retornar o move $name");
       }

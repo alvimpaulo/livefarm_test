@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:livefarm_flutter_test/components/MoveCard.dart';
 import 'package:livefarm_flutter_test/models/PokemonModel.dart';
 import 'package:livefarm_flutter_test/models/PokemonMoveModel.dart';
 import 'package:livefarm_flutter_test/services/Extensions/stringCapitalize.dart';
@@ -80,11 +81,13 @@ class _PokemonScreenState extends State<PokemonScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Container(
-                    height: 200,
-                    child: (ListView(
+                    child: (GridView.count(
+                      crossAxisCount: 4,
+                      childAspectRatio: 1.5,
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       children: snapshot.data!
-                          .map((move) => Text("${move.name}"))
+                          .map((move) => MoveCard(move: move))
                           .toList(),
                     )),
                   );
