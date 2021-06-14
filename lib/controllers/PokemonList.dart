@@ -47,16 +47,19 @@ abstract class PokemonListBase with Store {
   @action
   void sortPokemonList(String value) {
     switch (value) {
-      case "id":
+      case "id-":
         pokemonList.sort((first, second) => first.id.compareTo(second.id));
-        print("sorted by id");
-        print(pokemonList[0].name);
         break;
-      case "weight":
+      case "id+":
+        pokemonList.sort((first, second) => second.id.compareTo(first.id));
+        break;
+      case "weight-":
         pokemonList
             .sort((first, second) => first.weight.compareTo(second.weight));
-        print("sorted by weight");
-        print(pokemonList[0].name);
+        break;
+      case "weight+":
+        pokemonList
+            .sort((first, second) => second.weight.compareTo(first.weight));
         break;
     }
   }

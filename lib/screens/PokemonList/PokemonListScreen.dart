@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:livefarm_flutter_test/components/PokemonCard.dart';
 import 'package:livefarm_flutter_test/controllers/PokemonList.dart';
+import 'package:livefarm_flutter_test/services/Extensions/stringCapitalize.dart';
 
 class PokemonListScreen extends StatefulWidget {
   static const routeName = "/";
@@ -43,11 +44,28 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
                     if (newValue != null) pokemonList.sortPokemonList(newValue);
                   });
                 },
-                items: <String>["id", "weight"]
+                items: <String>["id+", "id-", "weight+", "weight-"]
                     .map<DropdownMenuItem<String>>((String value) {
                   return (DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(value.substring(0, value.length - 1).inCaps),
+                          () {
+                            if (value.endsWith("+")) {
+                              return Icon(
+                                Icons.arrow_drop_down,
+                                color: Colors.black87,
+                              );
+                            } else {
+                              return Icon(
+                                Icons.arrow_drop_up,
+                                color: Colors.black87,
+                              );
+                            }
+                          }()
+                        ]),
                   ));
                 }).toList(),
               )),
