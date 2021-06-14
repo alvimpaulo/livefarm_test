@@ -39,7 +39,8 @@ class _PokemonScreenState extends State<PokemonScreen> {
       body: ListView(
         children: [
           CachedNetworkImage(
-              placeholder: (context, url) => CircularProgressIndicator(),
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
               imageUrl: widget.pokemon.frontHighQuality),
           Center(
             child: Text("Abilities"),
@@ -90,7 +91,7 @@ class _PokemonScreenState extends State<PokemonScreen> {
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
               })
         ],
       ),

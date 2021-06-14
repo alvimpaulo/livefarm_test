@@ -13,8 +13,11 @@ Future<PokemonModel> getPokemon(int pokemonIndex) async {
       return PokemonModel.fromMap(maps[0]);
     else
       throw Exception("Could not find $pokemonIndex in the database");
-  } catch (ex) {
-    print(ex);
+  } catch (err) {
+    if (err.toString() !=
+        "Exception: Could not find $pokemonIndex in the database") {
+      print(err);
+    }
     final PokemonModel currentPoke = await fetchPokemon(pokemonIndex);
     await insertPokemon(currentPoke);
     return currentPoke;

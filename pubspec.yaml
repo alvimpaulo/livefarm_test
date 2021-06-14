@@ -32,10 +32,14 @@ dependencies:
   http: ^0.13.3
   sqflite: ^2.0.0+3
   carousel_slider: ^4.0.0-nullsafety.0
+  mobx: ^2.0.1
+  flutter_mobx: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mobx_codegen: ^2.0.1
+  build_runner: ^2.0.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

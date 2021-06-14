@@ -8,6 +8,7 @@ class PokemonModel {
   final String name;
   final String frontPixelArt;
   final String frontHighQuality;
+  final int weight;
   final List<PokemonStatModel> stats;
   final List<PokemonAbilityModel> abilities;
 
@@ -16,6 +17,7 @@ class PokemonModel {
     required this.name,
     required this.frontPixelArt,
     required this.frontHighQuality,
+    required this.weight,
     required this.stats,
     required this.abilities,
   });
@@ -26,6 +28,7 @@ class PokemonModel {
       "name": name,
       "img_pixel_art": frontPixelArt,
       "img_high_quality": frontHighQuality,
+      "weight": weight,
       "stats": jsonEncode(stats),
       "abilities": jsonEncode(abilities),
     };
@@ -53,6 +56,7 @@ class PokemonModel {
       frontPixelArt: json["sprites"]["front_default"],
       frontHighQuality: json["sprites"]["other"]["official-artwork"]
           ["front_default"],
+      weight: json["weight"],
       stats: pokeStats,
       abilities: pokeAbilities,
     ));
@@ -72,6 +76,7 @@ class PokemonModel {
       name: map["name"],
       frontPixelArt: map["img_pixel_art"],
       frontHighQuality: map["img_high_quality"],
+      weight: map["weight"],
       stats: pokeStats,
       abilities: pokeAbilities,
     ));

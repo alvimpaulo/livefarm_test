@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:livefarm_flutter_test/components/PokemonCard.dart';
+import 'package:livefarm_flutter_test/controllers/PokemonList.dart';
 
 class PokemonListScreen extends StatefulWidget {
   static const routeName = "/";
+
   PokemonListScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
@@ -12,19 +15,13 @@ class PokemonListScreen extends StatefulWidget {
 }
 
 class _PokemonListScreenState extends State<PokemonListScreen> {
-  ScrollController controller = ScrollController();
-  List<int> items = new List.generate(15, (index) => index + 1);
+  final pokemonList = PokemonList();
+  int lastListSize = 0;
 
   @override
   void initState() {
     super.initState();
-    controller = new ScrollController()..addListener(_scrollListener);
-  }
-
-  @override
-  void dispose() {
-    controller.removeListener(_scrollListener);
-    super.dispose();
+    pokemonList.populatePokemonList();
   }
 
   @override
@@ -32,25 +29,58 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
     return new Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: DropdownButton(
+                underline: Container(),
+                icon: Icon(
+                  Icons.sort,
+                  color: Colors.white,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    if (newValue != null) pokemonList.sortPokemonList(newValue);
+                  });
+                },
+                items: <String>["id", "weight"]
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return (DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  ));
+                }).toList(),
+              )),
+        ],
       ),
       body: new Scrollbar(
-        child: new ListView.builder(
-          controller: controller,
-          itemBuilder: (context, index) {
-            return PokemonCard(index: index + 1);
+        child: Observer(
+          builder: (_) {
+            return NotificationListener<ScrollNotification>(
+              onNotification: _handleScrollNotification,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return PokemonCard(
+                      pokemon: pokemonList.pokemonByIndex(index));
+                },
+                itemCount: pokemonList.length,
+              ),
+            );
           },
-          itemCount: items.length,
         ),
       ),
     );
   }
 
-  void _scrollListener() {
-    // print(controller.position.extentAfter);
-    if (controller.position.extentAfter < 800) {
-      setState(() {
-        items.addAll(new List.generate(15, (index) => items.length + 1));
-      });
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollEndNotification) {
+      if (notification.metrics.extentAfter == 0 &&
+          lastListSize < pokemonList.length) {
+        pokemonList.addPokemons();
+        lastListSize = pokemonList.length;
+      }
     }
+    return false;
   }
 }
