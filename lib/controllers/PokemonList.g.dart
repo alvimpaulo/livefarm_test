@@ -9,6 +9,13 @@ part of 'PokemonList.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$PokemonList on PokemonListBase, Store {
+  Computed<int>? _$lengthComputed;
+
+  @override
+  int get length => (_$lengthComputed ??=
+          Computed<int>(() => super.length, name: 'PokemonListBase.length'))
+      .value;
+
   final _$pokemonListAtom = Atom(name: 'PokemonListBase.pokemonList');
 
   @override
@@ -33,6 +40,13 @@ mixin _$PokemonList on PokemonListBase, Store {
         .run(() => super.populatePokemonList());
   }
 
+  final _$addPokemonsAsyncAction = AsyncAction('PokemonListBase.addPokemons');
+
+  @override
+  Future<void> addPokemons() {
+    return _$addPokemonsAsyncAction.run(() => super.addPokemons());
+  }
+
   final _$PokemonListBaseActionController =
       ActionController(name: 'PokemonListBase');
 
@@ -50,7 +64,8 @@ mixin _$PokemonList on PokemonListBase, Store {
   @override
   String toString() {
     return '''
-pokemonList: ${pokemonList}
+pokemonList: ${pokemonList},
+length: ${length}
     ''';
   }
 }

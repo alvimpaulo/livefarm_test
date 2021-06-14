@@ -41,7 +41,9 @@ class _PokemonListScreenState extends State<PokemonListScreen> {
                 ),
                 onChanged: (String? newValue) {
                   setState(() {
-                    if (newValue != null) pokemonList.sortPokemonList(newValue);
+                    if (newValue != null) {
+                      pokemonList.sortPokemonList(newValue);
+                    }
                   });
                 },
                 items: <String>["id+", "id-", "weight+", "weight-"]
